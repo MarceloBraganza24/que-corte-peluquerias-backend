@@ -1,0 +1,111 @@
+paths:
+  /api/tickets:
+    get:
+      summary: Este servicio obtiene todos los tickets disponibles en la BDD
+      # El tag es un identificador que indica a donde (el recurso) pertenece el servicio
+      tags:
+        - Tickets
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Los tickets fueron obtenidos exitosamente
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Ticket'
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo en la conexión
+    post:
+      summary: Este servicio crea un ticket
+        # El tag es un identificador que indica a donde (el recurso) pertenece el servicio
+      tags:
+        - Tickets
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/createTicket'
+      responses:
+        "200":
+          description: El producto fue creado exitosamente en la BDD
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo en la conexión
+  /api/tickets/{tid}:
+    get:
+      summary: Este servicio obtiene un único ticket a partir de su tid (identificador del ticket)
+      # El tag es un identificador que indica a donde (el recurso) pertenece el servicio
+      tags:
+        - Tickets
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tid
+          in: path
+          required: true
+          description: El id del ticket a buscar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El ticket fue obtenido exitosamente de la BDD
+          content:
+            aplication/json:
+              schema:
+                $ref: '#components/schemas/Ticket'
+        "404":
+          description: El ticket no fue encontrado en BDD
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo en la conexión
+components:
+  schemas:
+    Ticket:
+      type: Object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por mongodb, es el id del producto
+        code:
+          type: String
+          description: Codigo del ticket
+        purchase_datetime:
+          type: String
+          description: Fecha y hora de creación del ticket
+        amount:
+          type: Number
+          description: Saldo del ticket
+        purchaser:
+          type: String
+          description: Comprador del ticket
+      example:
+        _id: ObjectId("sdnsdnl.58sd96.soomnd")
+        code: s46549dssdd
+        purchase_datetime: 5/2/2024 23:24:02
+        amount: 25200
+        purchaser: mb@gmail.com
+  requestBodies:
+    createTicket:
+      type: Object
+      properties:
+        code:
+          type: String
+          description: Codigo del ticket
+        purchase_datetime:
+          type: String
+          description: Fecha y hora de creación del ticket
+        amount:
+          type: String
+          description: Precio final del ticket
+        purchaser:
+          type: Number
+          description: Creador del ticket
+      example:
+        code: dsd2621ssd6
+        purchase_datetime: 8/3/2024, 01:33:59
+        amount: 2500
+        purchaser: pp@gmail.com

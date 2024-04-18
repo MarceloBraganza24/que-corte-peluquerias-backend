@@ -1,0 +1,174 @@
+paths:
+  /api/sessions/register:
+    post:
+      summary: Este servicio registra un usuario
+        # El tag es un identificador que indica a donde (el recurso) pertenece el servicio
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/registerUser'
+      responses:
+        "200":
+          description: El usuario se ha registrado correctamente en la BDD
+          content:
+            aplication/json:
+              schema:
+                $ref: '#components/schemas/User'
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo en la conexión
+  /api/sessions/login:
+    post:
+      summary: Este servicio realiza un login de usuario
+        # El tag es un identificador que indica a donde (el recurso) pertenece el servicio
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/loginUser'
+      responses:
+        "200":
+          description: El login se realizó con éxito
+          content:
+            aplication/json:
+              schema:
+                $ref: '#components/schemas/Token'
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo en la conexión
+  /api/sessions/logout:
+    post:
+      summary: Este servicio realiza un logout de usuario
+        # El tag es un identificador que indica a donde (el recurso) pertenece el servicio
+      tags:
+        - Sessions
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: El logout se realizó con éxito
+          content:
+            aplication/json:
+              schema:
+                $ref: '#components/schemas/Token'
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo en la conexión
+  /api/sessions/current:
+    get:
+      summary: Este servicio obtiene la sessión actual del usuario
+      # El tag es un identificador que indica a donde (el recurso) pertenece el servicio
+      tags:
+        - Sessions
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: La sessión fue obtenida exitosamente
+          content:
+            aplication/json:
+              schema:
+                type: object
+                $ref: '#components/schemas/Session'
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo en la conexión
+components:
+  schemas:
+    User:
+      type: Object
+      properties:
+        first_name:
+          type: String
+          description: Nombre del usuario
+        role:
+          type: String
+          description: Rol del usuario
+        email:
+          type: String
+          description: Email del usuario
+        last_connection:
+          type: String
+          description: Última conexión del usuario
+      example:
+        first_name: lito
+        role: admin
+        email: l.b@gmail.com
+        last_connection: 5/2/2024 23:24:02
+    Token:
+      type: Object
+      properties:
+        data:
+          type: ObjectId
+          description: Token del usuario
+      example:
+        data: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX
+    Session:
+      type: Object
+      properties:
+        first_name:
+          type: ObjectId
+          description: Nombre del usuario
+        last_name:
+          type: String
+          description: Apellido del usuario
+        email:
+          type: Number
+          description: Email del usuario
+        role:
+          type: String
+          description: Rol del usuario
+      example:
+        first_name: Lito
+        last_name: Braga
+        email: l.b@gmail.com
+        role: admin
+  requestBodies:
+    loginUser:
+      type: Object
+      properties:
+        email:
+          type: String
+          description: Email del usuario
+        password:
+          type: String
+          description: Password del usuario
+      example:
+        email: l.b@gmail.com
+        password: KSNOD59635sdsd699KKNS
+    registerUser:
+      type: Object
+      properties:
+        first_name:
+          type: String
+          description: Nombre del usuario
+        last_name:
+          type: String
+          description: Apellido del usuario
+        role:
+          type: String
+          description: Rol del usuario
+        email:
+          type: String
+          description: Email del usuario
+        password:
+          type: String
+          description: Password del usuario
+        age:
+          type: String
+          description: Edad del usuario
+      example:
+        first_name: lito
+        last_name: braga
+        role: admin
+        email: l.b@gmail.com
+        password: KSNOD59635sdsd699KKNS
+        age: 18
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
