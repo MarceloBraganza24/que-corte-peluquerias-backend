@@ -16,6 +16,7 @@ import SessionsRouter from "./routes/sessions.router.js";
 import TicketsRouter from "./routes/tickets.router.js";
 import ShiftsRouter from "./routes/shifts.router.js";
 import PaymentsRouter from "./routes/payments.router.js";
+import PartnersRouter from "./routes/partners.router.js";
 
 const app = express();
 
@@ -25,6 +26,7 @@ const sessionsRouter = new SessionsRouter();
 const ticketsRouter = new TicketsRouter();
 const shiftsRouter = new ShiftsRouter();
 const paymentsRouter = new PaymentsRouter();
+const partnersRouter = new PartnersRouter();
 
 app.use(addLogger);
 app.use(express.json());
@@ -60,5 +62,6 @@ app.use('/api/sessions', sessionsRouter.getRouter());
 app.use('/api/tickets', ticketsRouter.getRouter());
 app.use('/api/shifts', shiftsRouter.getRouter());
 app.use('/api/payments', paymentsRouter.getRouter());
+app.use('/api/partners', partnersRouter.getRouter());
 
 app.listen(config.port, () => console.log('Server running...'))

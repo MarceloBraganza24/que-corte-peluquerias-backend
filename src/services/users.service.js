@@ -97,6 +97,7 @@ const login = async(password, email) => {
         throw new InvalidCredentials('incorrect credentials');
     } 
     user.last_connection = new Date().toLocaleString();
+    user.isLoggedIn = true;
     await usersRepository.update(user._id, user);
     const accessToken = generateToken(user);
     return accessToken;

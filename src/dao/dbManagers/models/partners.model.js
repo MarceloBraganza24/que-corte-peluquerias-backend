@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
-const usersCollection = 'users';
+const partnersCollection = 'partners';
 
-const usersSchema = new mongoose.Schema({
+const partnersSchema = new mongoose.Schema({
     first_name: {
         type: String,
         required: true
@@ -11,19 +11,19 @@ const usersSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    dni: {
+        type: Number,
+        required: true,
+        unique: true
+    },
+    phone: {
+        type: Number,
+        required: true
+    },
     email: {
         type: String,
         required: true,
         unique: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    role: {
-        type: String,
-        required: true,
-        default: 'user'
     },
     documents: {
         type: [
@@ -37,14 +37,7 @@ const usersSchema = new mongoose.Schema({
             }
         ],
         default: []
-    },
-    last_connection: {
-        type: String,
-    },
-    isLoggedIn: {
-        type: Boolean,
-        default: false
     }
 });
 
-export const usersModel = mongoose.model(usersCollection, usersSchema);
+export const partnersModel = mongoose.model(partnersCollection, partnersSchema);

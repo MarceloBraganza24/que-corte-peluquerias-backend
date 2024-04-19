@@ -6,7 +6,7 @@ export default class SessionsRouter extends Router {
     init() {
         this.post('/singUp', [accessRolesEnum.PUBLIC], passportStrategiesEnum.NOTHING, singUp);
         this.post('/login', [accessRolesEnum.PUBLIC], passportStrategiesEnum.NOTHING, login);
-        this.post('/logout', [accessRolesEnum.ADMIN, accessRolesEnum.PREMIUM, accessRolesEnum.USER], passportStrategiesEnum.JWT, logout);
-        this.get('/current', [accessRolesEnum.ADMIN], passportStrategiesEnum.JWT, current);
+        this.post('/logout', [accessRolesEnum.PUBLIC], passportStrategiesEnum.NOTHING, logout);
+        this.get('/current', [accessRolesEnum.PUBLIC], passportStrategiesEnum.NOTHING, current);
     }
 }
