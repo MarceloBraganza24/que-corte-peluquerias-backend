@@ -1,6 +1,8 @@
+import { Partners } from '../dao/factory.js';
+
 export default class PartnersRepository {
-    constructor(dao) {
-        this.dao = dao;
+    constructor() {
+        this.dao = new Partners();
     }
     getAll = async() => {
         const partners = await this.dao.getAll();
