@@ -60,7 +60,7 @@ const sendMailToResetPass = async(user) => {
         <body>
             <h1>Recuperación de contraseña</h1>
             <h2>Accede al siguiente link para ingresar la nueva contraseña</h2>
-            <a href="https://que-corte-peluquerias-frontend-mkxktyjzsa-rj.a.run.app/resetPass">¡has click aquí!</a>
+            <a href="https://que-corte-peluquerias-frontend-mkxktyjzsa-tl.a.run.app/resetPass">¡has click aquí!</a>
         </body>
         </html>`
     }
