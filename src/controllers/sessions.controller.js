@@ -6,9 +6,10 @@ import config from '../config/config.js';
 const singUp = async (req, res) => {
     try {
         const { first_name ,last_name, email, password,user_datetime } = req.body;
-        if(!first_name || !last_name || !email || !password || !user_datetime) return res.sendClientError('incomplete values');
+        console.log({...req.body})
+        /* if(!first_name || !last_name || !email || !password || !user_datetime) return res.sendClientError('incomplete values');
         const registeredUser = await usersService.register({ ...req.body });
-        res.sendSuccessNewResourse(registeredUser);
+        res.sendSuccessNewResourse(registeredUser); */
     } catch (error) {
         if(error instanceof UserByEmailExists) {
             return res.sendClientError(error.message);

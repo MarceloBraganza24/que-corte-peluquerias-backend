@@ -8,6 +8,7 @@ export let Providers;
 export let Products;
 export let Prices;
 export let Holidays;
+export let About;
 
 const persistence = config.persistence;
 
@@ -24,6 +25,7 @@ switch(persistence) {
         const { default: ProductsMongo } = await import('./dbManagers/products.manager.js');
         const { default: PricesMongo } = await import('./dbManagers/prices.manager.js');
         const { default: HolidaysMongo } = await import('./dbManagers/holidays.manager.js');
+        const { default: AboutMongo } = await import('./dbManagers/about.manager.js');
         Users = UsersMongo;
         Tickets = TicketsMongo;
         Shifts = ShiftsMongo;
@@ -32,6 +34,7 @@ switch(persistence) {
         Products = ProductsMongo;
         Prices = PricesMongo;
         Holidays = HolidaysMongo;
+        About = AboutMongo;
         break;
     case 'FILE':
         /* const { default: UsersFile } = await import('./fileManagers/users.manager.js');

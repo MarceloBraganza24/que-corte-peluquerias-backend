@@ -37,7 +37,8 @@ const shiftsSchema = new mongoose.Schema({
         required: true
     },
     cancelled: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 });
 
