@@ -1,3 +1,5 @@
+process.env.LANG = 'es_AR.UTF-8';
+
 import express from "express";
 import cors from 'cors';
 import { __mainDirname } from './utils/utils.js';
@@ -19,6 +21,7 @@ import ProvidersRouter from "./routes/providers.router.js";
 import ProductsRouter from "./routes/products.router.js";
 import PricesRouter from "./routes/prices.router.js";
 import HolidaysRouter from "./routes/holidays.router.js";
+import AboutRouter from "./routes/about.router.js";
 
 const app = express();
 
@@ -32,9 +35,10 @@ const providersRouter = new ProvidersRouter();
 const productsRouter = new ProductsRouter();
 const pricesRouter = new PricesRouter();
 const holidaysRouter = new HolidaysRouter();
+const aboutRouter = new AboutRouter();
 
 app.use(addLogger);
-app.use(express.json());
+app.use(express.json({ type: 'application/json' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser());
@@ -66,5 +70,6 @@ app.use('/api/providers', providersRouter.getRouter());
 app.use('/api/products', productsRouter.getRouter());
 app.use('/api/prices', pricesRouter.getRouter());
 app.use('/api/holidays', holidaysRouter.getRouter());
+app.use('/api/about', aboutRouter.getRouter());
 
 app.listen(config.port, () => console.log(`Server running on port ${config.port}`))

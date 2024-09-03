@@ -95,12 +95,12 @@ const login = async(password, email) => {
     }
     const comparePassword = isValidPassword(password, user.password);
     if(!comparePassword) {
-        const emailInvalidCredentials = {
-            to: user.email,
-            subject: 'Login fallido',
-            html: htmlLoginInvalidCredentials
-        }
-        await sendEmail(emailInvalidCredentials);
+        // const emailInvalidCredentials = {
+        //     to: user.email,
+        //     subject: 'Login fallido',
+        //     html: htmlLoginInvalidCredentials
+        // }
+        // await sendEmail(emailInvalidCredentials);
         throw new InvalidCredentials('incorrect credentials');
     } else {
         user.last_connection = fechaEnBuenosAires;
