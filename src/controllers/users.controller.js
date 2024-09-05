@@ -161,9 +161,9 @@ const updateProp = async (req, res) => {
 
 const updateProps = async (req, res) => {
     try {
-        const {first_name,last_name,email} = req.body;
+        const {first_name,last_name} = req.body;
         const uid = req.params.uid;
-        const userUpdated = await usersService.updateProps(uid,first_name,last_name,email)
+        const userUpdated = await usersService.updateProps(uid,first_name,last_name)
         res.sendSuccess(userUpdated);
     } catch (error) {
         if(error instanceof UserAlreadyExists || error instanceof UserByEmailExists) {
