@@ -14,11 +14,6 @@ const usersRepository = new UsersRepository(usersDao);
 const partnersDao = new Partners();
 const partnersRepository = new PartnersRepository(partnersDao);
 
-const newDate = new Date();
-const momentDate = moment(newDate);
-const fechaEnBuenosAires = momentDate.tz('America/Argentina/Buenos_Aires');
-fechaEnBuenosAires.format('YYYY-MM-DD HH:mm')
-
 const getAll = async() => {
     const usersDto = await usersRepository.getAll();
     return usersDto;
@@ -88,7 +83,7 @@ const register = async(user) => {
     return result;
 }
 
-const login = async(password, email) => {
+const login = async(password, email,last_connection) => {
     const user = await usersRepository.getByEmail(email);
     if(!user) {
         throw new InvalidCredentials('incorrect credentials');
@@ -103,7 +98,7 @@ const login = async(password, email) => {
         // await sendEmail(emailInvalidCredentials);
         throw new InvalidCredentials('incorrect credentials');
     } else {
-        user.last_connection = fechaEnBuenosAires;
+        user.last_connection = last_connection;
         user.isLoggedIn = true;
         await usersRepository.update(user._id, user);
         const accessToken = generateToken(user);
@@ -146,29 +141,47 @@ const updateProp = async(email,prop,prop_value) => {
     return userUpdated;
 }
 
-const updateProps = async(uid,first_name,last_name,email) => {
-    const userByEmail = await usersRepository.getByEmail(email)
+const updateProps = async(uid,first_name,last_name) => {
+    const userById = await usersRepository.getById(uid);
     const propsUserUpdated = {
-        ...userByEmail,
+        ...userById,
         first_name:first_name,
         last_name:last_name,
-        email:email,
     }
     const userUpdated = await usersRepository.update(uid, propsUserUpdated);
     return userUpdated;
 }
 
-const logOut = async(id, user) => {
-    const userById = await usersRepository.getById(id);
-    if(userById.isLoggedIn) {
-        user.last_connection = fechaEnBuenosAires;
+const logOut = async(user,last_connection) => {
+    // console.log(user)
+    // console.log(last_connection)
+    const newUser = {
+        ...user,
+        last_connection: last_connection
+    }
+    const userUpdated = await usersRepository.update(user._id, newUser);
+    return userUpdated;
+
+    /* const userById = await usersRepository.getById(id);
+    if(user.isLoggedIn) {
+        user.last_connection = last_connection;
         user.isLoggedIn = false;
         if(user.role != userById.role) {
             user.role = userById.role;
             const userUpdated = await usersRepository.update(id, user);
             return userUpdated;
         }
-    }
+    } */
+
+    /* if(userById.isLoggedIn) {
+        user.last_connection = last_connection;
+        user.isLoggedIn = false;
+        if(user.role != userById.role) {
+            user.role = userById.role;
+            const userUpdated = await usersRepository.update(id, user);
+            return userUpdated;
+        }
+    } */
 }
 
 const eliminateOne = async(id) => {

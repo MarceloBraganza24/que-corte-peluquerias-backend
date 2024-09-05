@@ -6,10 +6,9 @@ import config from '../config/config.js';
 const singUp = async (req, res) => {
     try {
         const { first_name ,last_name, email, password,user_datetime } = req.body;
-        console.log({...req.body})
-        /* if(!first_name || !last_name || !email || !password || !user_datetime) return res.sendClientError('incomplete values');
+        if(!first_name || !last_name || !email || !password || !user_datetime) return res.sendClientError('incomplete values');
         const registeredUser = await usersService.register({ ...req.body });
-        res.sendSuccessNewResourse(registeredUser); */
+        res.sendSuccessNewResourse(registeredUser);
     } catch (error) {
         if(error instanceof UserByEmailExists) {
             return res.sendClientError(error.message);
@@ -21,9 +20,9 @@ const singUp = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, last_connection } = req.body;
         if( !email || !password) return res.sendClientError('incomplete values');
-        const accessToken = await usersService.login(password, email);
+        const accessToken = await usersService.login(password, email,last_connection);
         res.sendSuccess(accessToken);
     } catch (error) {
         if(error instanceof InvalidCredentials) {
@@ -37,8 +36,9 @@ const login = async (req, res) => {
 const logout = async (req, res) => {
     try {
         const cookie = req.query.cookie;
+        const { last_connection } = req.body;
         const userVerified = jwt.verify(cookie, config.privateKeyJWT);
-        const userUpdated = await usersService.logOut(userVerified.user._id, userVerified.user)
+        const userUpdated = await usersService.logOut(userVerified.user,last_connection)
         res.sendSuccess({ userUpdated: userUpdated });
     } catch (error) {
         if(error instanceof UserAlreadyExists || error instanceof UserByEmailExists) {
