@@ -146,6 +146,18 @@ const updateProp = async(email,prop,prop_value) => {
     return userUpdated;
 }
 
+const updateProps = async(uid,first_name,last_name,email) => {
+    const userByEmail = await usersRepository.getByEmail(email)
+    const propsUserUpdated = {
+        ...userByEmail,
+        first_name:first_name,
+        last_name:last_name,
+        email:email,
+    }
+    const userUpdated = await usersRepository.update(uid, propsUserUpdated);
+    return userUpdated;
+}
+
 const logOut = async(id, user) => {
     const userById = await usersRepository.getById(id);
     if(userById.isLoggedIn) {
@@ -206,6 +218,7 @@ export {
     changePass,
     update,
     updateProp,
+    updateProps,
     logOut,
     eliminateOne,
     purchase

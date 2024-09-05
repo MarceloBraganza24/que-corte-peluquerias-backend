@@ -159,6 +159,22 @@ const updateProp = async (req, res) => {
     }
 }
 
+const updateProps = async (req, res) => {
+    try {
+        const {first_name,last_name,email} = req.body;
+        const uid = req.params.uid;
+        const userUpdated = await usersService.updateProps(uid,first_name,last_name,email)
+        res.sendSuccess(userUpdated);
+    } catch (error) {
+        if(error instanceof UserAlreadyExists || error instanceof UserByEmailExists) {
+            return res.sendClientError(error.message);
+        } else {
+            res.sendServerError(error.message);
+            req.logger.error(error.message);
+        }
+    }
+}
+
 const eliminate = async (req, res) => {
     try {
         const currentUsers = await usersService.eliminate();
@@ -202,6 +218,7 @@ export {
     uploadFiles,
     update,
     updateProp,
+    updateProps,
     eliminate,
     eliminateOne,
     eliminateCartUser,
