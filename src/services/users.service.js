@@ -153,35 +153,19 @@ const updateProps = async(uid,first_name,last_name) => {
 }
 
 const logOut = async(user,last_connection) => {
-    // console.log(user)
-    // console.log(last_connection)
     const newUser = {
         ...user,
         last_connection: last_connection
     }
-    const userUpdated = await usersRepository.update(user._id, newUser);
-    return userUpdated;
-
-    /* const userById = await usersRepository.getById(id);
-    if(user.isLoggedIn) {
-        user.last_connection = last_connection;
-        user.isLoggedIn = false;
-        if(user.role != userById.role) {
-            user.role = userById.role;
-            const userUpdated = await usersRepository.update(id, user);
+    const userById = await usersRepository.getById(user._id);
+    if(newUser.isLoggedIn) {
+        newUser.isLoggedIn = false;
+        if(newUser.role != userById.role) {
+            newUser.role = userById.role;
+            const userUpdated = await usersRepository.update(user._id, newUser);
             return userUpdated;
         }
-    } */
-
-    /* if(userById.isLoggedIn) {
-        user.last_connection = last_connection;
-        user.isLoggedIn = false;
-        if(user.role != userById.role) {
-            user.role = userById.role;
-            const userUpdated = await usersRepository.update(id, user);
-            return userUpdated;
-        }
-    } */
+    }
 }
 
 const eliminateOne = async(id) => {
